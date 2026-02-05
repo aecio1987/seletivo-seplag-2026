@@ -10,6 +10,8 @@ export type Pet = {
   especie: string
   raca: string
   foto?: string
+  idadeAnos?: number
+  idadeMeses?: number
   emoji?: string
   email?: string
 }
@@ -94,7 +96,9 @@ export const PetFacade = {
 
   login(email: string, senha: string): boolean {
     const tutors = loadTutors()
-    const user = tutors.find(t => t.email === email && t.senha === senha)
+    const user = tutors.find(
+      t => t.email === email && t.senha === senha
+    )
     if (!user) return false
 
     localStorage.setItem(USER_KEY, user.tutor.split(" ")[0])
@@ -112,7 +116,6 @@ export const PetFacade = {
     petsSubject.next([])
   },
 
-  /* 🔑 PASSO E — EDIÇÃO DE DADOS DO TUTOR */
   updateTutor(data: Partial<Tutor>) {
     const email = localStorage.getItem(EMAIL_KEY)
     if (!email) return
@@ -124,7 +127,6 @@ export const PetFacade = {
     saveTutors(tutors)
   },
 
-  /* 🔒 PASSO 2 — SEGURANÇA */
   updatePassword(senhaAtual: string, novaSenha: string): boolean {
     const email = localStorage.getItem(EMAIL_KEY)
     if (!email) return false
@@ -149,7 +151,9 @@ export const PetFacade = {
       ...pet,
       email,
       id: Date.now().toString(),
-      codigo: `#${(pets.length + 1).toString().padStart(6, "0")}`,
+      codigo: `#${(pets.length + 1)
+        .toString()
+        .padStart(6, "0")}`,
     })
 
     savePets(pets)
@@ -158,7 +162,9 @@ export const PetFacade = {
 
   updatePet(id: string, data: Partial<Pet>) {
     savePets(
-      loadPets().map(p => (p.id === id ? { ...p, ...data } : p))
+      loadPets().map(p =>
+        p.id === id ? { ...p, ...data } : p
+      )
     )
     this.initList()
   },
@@ -175,6 +181,8 @@ export const PetFacade = {
       return
     }
 
-    petsSubject.next(loadPets().filter(p => p.email === email))
+    petsSubject.next(
+      loadPets().filter(p => p.email === email)
+    )
   },
 }

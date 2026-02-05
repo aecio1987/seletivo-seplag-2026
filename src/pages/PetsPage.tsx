@@ -73,15 +73,41 @@ export default function PetsPage({ onLogout }: Props) {
               gap: 12,
             }}
           >
-            <div>
-              <strong>
-                {pet.emoji} {pet.nome}
-              </strong>
+            {/* ⬇️ BLOCO VISUAL DO PET */}
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              {pet.foto && (
+                <img
+                  src={pet.foto}
+                  alt={`Foto do pet ${pet.nome}`}
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 8,
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+
               <div>
-                {pet.especie} • {pet.raca}
+                <strong>
+                  {pet.emoji} {pet.nome}
+                </strong>
+                <div>
+                  {pet.especie} • {pet.raca}
+                </div>
+
+                {(pet.idadeAnos !== undefined ||
+                  pet.idadeMeses !== undefined) && (
+                  <div style={{ fontSize: 14, color: "#475569" }}>
+                    {pet.idadeAnos ?? 0} ano(s)
+                    {pet.idadeMeses !== undefined &&
+                      ` e ${pet.idadeMeses} mês(es)`}
+                  </div>
+                )}
               </div>
             </div>
 
+            {/* ⬇️ AÇÕES */}
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={() => handleEditarPet(pet)}>
                 Editar
